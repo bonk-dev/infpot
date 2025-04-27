@@ -100,3 +100,64 @@ Przechodząc do podziału naszej puli `2001:ACAD:A::/48`, dzielimy ją na trzy p
 - SLAN1: `2001:ACAD:A:0::0/64`,
 - SLAN2: `2001:ACAD:A:1::0/64`,
 - SLAN3: `2001:ACAD:A:2::0/64`.
+
+## Przypisywanie (na papierze) adresów do urządzeń
+Mając najtrudniejszy etap za sobą, przechodzimy do nadawania adresów urządzeniom w naszej sieci, zaczynając od sieci SLAN1. Każdemu urządzeniu musimy nadać adres IPv4, a adresy IPv6 tylko interfejsom routera oraz serwerowi.
+
+### SLAN1
+Sieci SLAN1 nadaliśmy następujące adresy:  
+- IPv4: `155.21.22.0/24`,
+- IPv6: `2001:ACAD:A:0::0/64`.
+
+i znajdują się w niej 4 urządzenia:
+- PC1,
+- PC2,
+- przekaźnik SLAN1_{nazwisko},
+- router R1 (interfejs G0/0).
+
+W nadawaniu adresów mamy pełną swobodę, dopóki używamy adresów z zakresu wydzielonej sieci oraz **nie** wykorzystujemy adresów sieci (pierwszego) oraz rozgłaszania (ostatniego) dla hostów.
+
+Przykładowe przypisanie:
+| Urządzenie | IPv4 | Maska podsieci | Brama domyślna |
+| ---------- | ---- | -------------- | -------------- |
+| R1 (G0/0) | 155.21.22.1 | 255.255.255.0 | nd. |
+| przekaźnik SLAN1 (VLAN 1) | 155.21.22.2 | 255.255.255.0 | 155.21.22.1 |
+| PC1 | 155.21.22.20 | 255.255.255.0 | 155.21.22.1 |
+| PC2 | 155.21.22.21 | 255.255.255.0 | 155.21.22.1 |
+
+| Urządzenie | IPv6 | Prefiks | Brama domyślna |
+| ---------- | ---- | ------- | -------------- |
+| R1 (G0/0) | 2001:ACAD:A:0::1 | /64 | nd. |
+
+Dla reszty urządzeń w SLAN1 (i w innych sieciach) nie przypisujemy ręcznie adresów IPv6, ponieważ zostaną one wygenerowane przez SLAAC.
+
+Dlaczego PC1 ma adres z końcówką `.20` a nie `.3`? Zostawiłem sobie bufor na przyszłe urządzenia sieciowe (takie jak dodatkowe switche), choć mógłbyć on troszkę mały :).
+
+### SLAN2
+W sieci SLAN2 wygląda to praktycznie tak samo, z tym że używamy adresów z puli `155.21.23.0/25` oraz `2001:ACAD:A:1::0/64`:
+
+| Urządzenie | IPv4 | Maska podsieci | Brama domyślna |
+| ---------- | ---- | -------------- | -------------- |
+| R1 (G0/1) | 155.21.23.1 | 255.255.255.128 | nd. |
+| przekaźnik SLAN2 (VLAN 1) | 155.21.23.2 | 255.255.255.128 | 155.21.23.1 |
+| PC3 | 155.21.23.20 | 255.255.255.128 | 155.21.23.1 |
+| PC4 | 155.21.23.21 | 255.255.255.128 | 155.21.23.1 |
+
+| Urządzenie | IPv6 | Prefiks | Brama domyślna |
+| ---------- | ---- | ------- | -------------- |
+| R1 (G0/1) | 2001:ACAD:A:1::1 | /64 | nd. |
+
+### SLAN3
+W sieci SLAN3 również wygląda to tak samo, z tym że nadajemy adres IPv6 serwerowi i używamy adresów z puli `155.21.23.128/25` oraz `2001:ACAD:A:2::0/64`:
+
+| Urządzenie | IPv4 | Maska podsieci | Brama domyślna |
+| ---------- | ---- | -------------- | -------------- |
+| R1 (F0/1/0) | 155.21.23.129 | 255.255.255.128 | nd. |
+| przekaźnik SLAN3 (VLAN 1) | 155.21.23.130 | 255.255.255.128 | 155.21.23.129 |
+| PC5 | 155.21.23.150 | 255.255.255.128 | 155.21.23.129 |
+| Server1 | 155.21.23.151 | 255.255.255.128 | 155.21.23.129 |
+
+| Urządzenie | IPv6 | Prefiks | Brama domyślna |
+| ---------- | ---- | ------- | -------------- |
+| R1 (F0/1/0) | 2001:ACAD:A:2::1 | /64 | nd. |
+| Server1 | 2001:ACAD:A:2::2 | /64 | 2001:ACAD:A:2::1 |
