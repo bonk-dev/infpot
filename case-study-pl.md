@@ -43,6 +43,11 @@ Następnie musimy obliczyć kolejny adres sieci, do czego posłuży nam fakt, ż
 
 W przypadku SLAN3 postępujemy podobnie, mając na uwagę, że w sieci SLAN2 jest 128 adresów, a nie 256. Ponownie manipulujemy czwartym oktetem z tego samego powodu, co w przypadku liczenia adresu sieci SLAN2. Adres sieci SLAN3 będzie odsunięty od 155.21.23.0 o 128 adresów. Liczymy: `155.21.23.[0+128]` czyli `155.21.23.128`. Tym razem w czwartym oktecie mamy wartość mniejszą od 256, więc otrzymany wynik jest adresem sieci SLAN3: `155.21.23.128/25`.
 
+Ostateczny rozkład sieci:
+- SLAN1: `155.21.22.0/24`
+- SLAN2: `155.21.23.0/25`
+- SLAN3: `155.21.23.128/25`
+
 ### Alternatywne rozkłady sieci
 Sieć SLAN1 umieściliśmy na początku, ale tak naprawdę mogliśmy utrudnić sobie trochę zadanie i umieścić ją np. w środku. Utrudniłoby to artymetykę adresów. Dla przykładu umieścimy SLAN2 na początku puli: `155.21.22.0/25`.
 
