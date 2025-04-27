@@ -63,3 +63,40 @@ Ostateczny (alternatywny) rozkład sieci:
 - SLAN3: `155.21.23.128/25`
 
 **Na potrzeby zadań będziemy korzystać z poprzedniego układu**.
+
+## Adresowanie IPv6
+Sieci IPv6 dzieli się w ten sam sposób, z tym że mamy narzucony mechanizm SLAAC, który działa wyłącznie na podsieciach /64, co znacznie ułatwia segmentację naszej puli.
+
+Do naszej dyspozycji dostaliśmy pulę `2001:ACAD:A::/48`, w której dostępne jest `2^(128-48) = 2^80` adresów, czyli `1 208 925 819 614 629 174 706 176` (dużo). 
+
+SLAAC wymusza na nas podział wyłącznie na podsieci /64, które mają `2^64` (również dużo) adresów, więc spokojnie pomieścimy w nich nasze 250, 120 i 80 urządzeń.
+
+Prefiksy /16, /32, /48, /64 w IPv6 są odpowiednikami prefiksów /8, /16, /24, /32 z IPv4 w kontekście liczenia adresów sieci (tutaj są to n-te niezerowe wielokrotności liczby 16, w IPv4 liczby 8). W takim przypadku obliczenia kolejnych adresów sieci zostają sprowadzone do zwiększania n-tego bloku o jeden, przykładowo:
+- sieć #1: `2001:BBBB:A:0::0/64`,
+- sieć #2: `2001:BBBB:A:1::0/64`,
+- sieć #3: `2001:BBBB:A:2::0/64`.
+
+gdzie `64` to 4 niezerowa wielokrotność liczby 16, zatem zwiększamy czwarty blok. 
+
+### Wyjaśnienie zależności n-tego bloku
+Skąd wynika ta zależność? Z takiej samej arytmetyki adresów jak w przypadku IPv4. Jeżeli chcemy obliczyć adres sieci 2, to odsuwamy adres sieci 1 o 2^64 adresów.
+
+Postaram się to zobrazować następującą tabelką:
+
+| 2001 | BBBB | 000A | 0000 | 0000 | 0000 | 0000 | 0000 | ile adresów w zakresie |
+|------|------|------|------|------|------|------|------| ---------------------- |
+| 2001 | BBBB | 000A | 0000 | 0000 | 0000 | 0000 | 0000 |                      1 |
+| 2001 | BBBB | 000A | 0000 | 0000 | 0000 | 0000 | 0001 |                      2 |
+| 2001 | BBBB | 000A | 0000 | 0000 | 0000 | 0000 | FFFF |                   2^16 |
+| 2001 | BBBB | 000A | 0000 | 0000 | 0000 | FFFF | FFFF |                   2^32 |
+| 2001 | BBBB | 000A | 0000 | 0000 | FFFF | FFFF | FFFF |                   2^48 |
+| 2001 | BBBB | 000A | 0000 | FFFF | FFFF | FFFF | FFFF |                   2^64 |
+| 2001 | BBBB | 000A | 0001 | 0000 | 0000 | 0000 | 0000 |                2^64 + 1|
+
+widać, że sieć 2001:BBBB:A:0::0/64 to zakres adresów: `2001:BBBB:A:0::0`-`2001:BBBB:A:0:FFFF:FFFF:FFFF:FFFF`; adres sieci to kolejny następny. Gdy dodamy `1` do ostatniego hekstetu, otrzymamy `10000`, zatem wstawiamy `0000` (bo `10000` > `FFFF`), przenosimy jedynkę do poprzedniego hekstetu i tak aż do momenntu, gdy nie będziemy musieli dalej jej przenosić.
+
+### Faktyczne zadanie
+Przechodząc do podziału naszej puli `2001:ACAD:A::/48`, dzielimy ją na trzy podsieci /64 (ze względu na SLAAC):
+- SLAN1: `2001:ACAD:A:0::0/64`,
+- SLAN2: `2001:ACAD:A:1::0/64`,
+- SLAN3: `2001:ACAD:A:2::0/64`.
