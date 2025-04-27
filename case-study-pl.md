@@ -43,4 +43,18 @@ Następnie musimy obliczyć kolejny adres sieci, do czego posłuży nam fakt, ż
 
 W przypadku SLAN3 postępujemy podobnie, mając na uwagę, że w sieci SLAN2 jest 128 adresów, a nie 256. Ponownie manipulujemy czwartym oktetem z tego samego powodu, co w przypadku liczenia adresu sieci SLAN2. Adres sieci SLAN3 będzie odsunięty od 155.21.23.0 o 128 adresów. Liczymy: `155.21.23.[0+128]` czyli `155.21.23.128`. Tym razem w czwartym oktecie mamy wartość mniejszą od 256, więc otrzymany wynik jest adresem sieci SLAN3: `155.21.23.128/25`.
 
-<!-- TODO: Add different layout (for example SLAN2, SLAN1, SLAN3 instead of SLAN1, SLAN2, SLAN3) -->
+### Alternatywne rozkłady sieci
+Sieć SLAN1 umieściliśmy na początku, ale tak naprawdę mogliśmy utrudnić sobie trochę zadanie i umieścić ją np. w środku. Utrudniłoby to artymetykę adresów. Dla przykładu umieścimy SLAN2 na początku puli: `155.21.22.0/25`.
+
+Przechodzimy do liczenia adresu SLAN1 (adres sieci będzie odsunięty o 128 adresów, bo tyle miała podsieć SLAN2): `155.21.22.[0+128]` czyli `155.21.22.128`. Zatem adres podsieci SLAN1 to `155.21.22.128/24`.
+
+Na koniec musimy obliczyć adres SLAN3 (tym razem odsuwamy adres o 256 adresów): `155.21.22.[128+256] = 155.21.22.[384]`. W ostatnim oktecie wystąpiło 384, co jest większe od 256, zatem: `155.21.[22+1].[384-256]` czyli `155.21.23.128`. W takim wypadku adres sieci SLAN3: `155.21.23.128/25`.
+
+Ciekawostka: w SLAN1 adresami hostów mogą być wtedy adresy: `155.21.22.255` oraz `155.21.23.0`, co jest w pełni prawidłowe w tym wypadku.
+
+Ostateczny (alternatywny) rozkład sieci:
+- SLAN2: `155.21.22.0/25`
+- SLAN1: `155.21.22.128/24`
+- SLAN3: `155.21.23.128/25`
+
+**Na potrzeby zadań będziemy korzystać z poprzedniego układu**.
