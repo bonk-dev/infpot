@@ -93,7 +93,7 @@ Postaram się to zobrazować następującą tabelką:
 | 2001 | BBBB | 000A | 0000 | FFFF | FFFF | FFFF | FFFF |                   2^64 |
 | 2001 | BBBB | 000A | 0001 | 0000 | 0000 | 0000 | 0000 |                2^64 + 1|
 
-widać, że sieć 2001:BBBB:A:0::0/64 to zakres adresów: `2001:BBBB:A:0::0`-`2001:BBBB:A:0:FFFF:FFFF:FFFF:FFFF`; adres sieci to kolejny następny. Gdy dodamy `1` do ostatniego hekstetu, otrzymamy `10000`, zatem wstawiamy `0000` (bo `10000` > `FFFF`), przenosimy jedynkę do poprzedniego hekstetu i tak aż do momenntu, gdy nie będziemy musieli dalej jej przenosić.
+widać, że sieć 2001:BBBB:A:0::0/64 to zakres adresów: `2001:BBBB:A:0::0`-`2001:BBBB:A:0:FFFF:FFFF:FFFF:FFFF`; adres sieci 2 to kolejny następny. Gdy dodamy `1` do ostatniego hekstetu, otrzymamy `10000`, zatem wstawiamy `0000` (bo `10000` > `FFFF`), przenosimy jedynkę do poprzedniego hekstetu i tak aż do momenntu, gdy nie będziemy musieli dalej jej przenosić.
 
 ### Faktyczne zadanie
 Przechodząc do podziału naszej puli `2001:ACAD:A::/48`, dzielimy ją na trzy podsieci /64 (ze względu na SLAAC):
