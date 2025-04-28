@@ -161,3 +161,77 @@ W sieci SLAN3 również wygląda to tak samo, z tym że nadajemy adres IPv6 serw
 | ---------- | ---- | ------- | -------------- |
 | R1 (F0/1/0) | 2001:ACAD:A:2::1 | /64 | nd. |
 | Server1 | 2001:ACAD:A:2::2 | /64 | 2001:ACAD:A:2::1 |
+
+## Konfiguracja urządzeń
+Mając przygotowaną listę adresów IP, możemy przejść do konfiguracji urządzeń w Cisco Packet Tracerze.
+
+### Router R1
+R1 jest urządzeniem, które będzie kierowało ruchem pomiędzy sieciami SLAN1/2/3 oraz pomiędzy tymi sieciami i _"naszym Internetem"_.
+
+Wchodzimy w tryb uprzywilejowany, a następnie w tryb konfiguracji globalnej za pomocą komend: `enable` i `configure terminal`. Wykonujemy po kolei polecenia:
+
+#### Nazwa routera
+Zmiana nazwy routera na `R1_Mickiewicz`:
+```
+Router(config)#hostname R1_Mickiewicz
+R1_Mickiewicz(config)#
+```
+
+#### Hasło logowania (tryb EXEC)
+Ustawianie hasła do trybu EXEC dla wszystkich linii:
+Najłatwiej jest wyświetlić sobie dostępne linie, każdemu typowi po kolei nadać hasło i włączyć logowanie:
+
+Gdy konfigurujemy kilka linii naraz, używamy polecenia:
+```
+R1_Mickiewicz(config)#line <typ> <start-zakresu> <koniec-zakresu>
+```
+W przypadku gdzie zmieniamy ustawienia pojedynczej linii, pomijamy _koniec-zakresu_:
+```
+R1_Mickiewicz(config)#line <typ> <nr linii>
+```
+
+Ustawmy hasło (_Zaq12wsx_) dla wszystkich linii:
+```
+R1_Mickiewicz(config)#line ?
+  <2-499>  First Line number
+  aux      Auxiliary line
+  console  Primary terminal line
+  tty      Terminal controller
+  vty      Virtual terminal
+  x/y/z    Slot/Subslot/Port for Modems
+R1_Mickiewicz(config)#line aux ?
+  <0-0>  First Line number
+R1_Mickiewicz(config)#line aux 0
+R1_Mickiewicz(config-line)#password Zaq12wsx
+R1_Mickiewicz(config-line)#login
+R1_Mickiewicz(config)#line console 0
+R1_Mickiewicz(config-line)#password Zaq12wsx
+R1_Mickiewicz(config-line)#login
+R1_Mickiewicz(config-line)#exit
+R1_Mickiewicz(config)#
+R1_Mickiewicz(config)#line tty ?
+  <2-90>  First Line number
+R1_Mickiewicz(config)#line tty 2 90
+No physical hardware support for line 2
+R1_Mickiewicz(config)#line vty ?
+  <0-15>  First Line number
+R1_Mickiewicz(config)#line vty 0 15
+R1_Mickiewicz(config-line)#password Zaq12wsx
+R1_Mickiewicz(config-line)#login
+R1_Mickiewicz(config-line)#exit
+R1_Mickiewicz(config)#
+```
+Na liniach TTY nie da się ustawić hasła, ponieważ nie ma w routerze sprzętowego portu, który byłby obsługiwany przez linię 2 (o czym poinformował nas IOS: _No physical hardware support for line 2_).
+
+#### Hasło do uprzywilejowanego trybu EXEC
+W tym kroku skonfigurujemy hasło, które będziemy musieli podać po użyciu polecenia `enable`.
+
+W trybie konfiguracji globalnej:
+```
+R1_Mickiewicz(config)#enable secret AdamX@a12#
+R1_Mickiewicz(config)#
+```
+
+Warto wspomnieć, że hasło możemy ustawić zarówno za pomocą `secret` jak i `password`. Różnica pomiędzy tymi dwoma metodami jest znacząca: hasło ustawione przy użyciu `secret` będzie zahashowane w konfiguracji (będzie niemożliwe do odczytania), podczas gdy `password` zapisze je ot tak w formie możliwej do odzyskania.
+
+#### Adresowanie interfejsów
