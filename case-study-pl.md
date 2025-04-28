@@ -398,6 +398,15 @@ SLAN1_Mickiewicz(config-line)#exit
 SLAN1_Mickiewicz(config)#
 ```
 
+#### Hasło do uprzywilejowanego trybu EXEC
+W tym kroku skonfigurujemy hasło, które będziemy musieli podać po użyciu polecenia `enable`.
+
+W trybie konfiguracji globalnej:
+```
+SLAN1_Mickiewicz(config)#enable secret AdamX@a12#
+SLAN1_Mickiewicz(config)#
+```
+
 #### Adresowanie IPv4
 Adres IPv4 możemy nadać przekaźnikowi ustawiając adres na interfejsie SVI (_Switched Virtual Interface_) odpowiadającemu domyślnemu VLANowi o numerze `1`.
 
