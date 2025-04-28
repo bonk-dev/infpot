@@ -280,3 +280,30 @@ R1_Mickiewicz(config)#
 ```
 
 Dzięki temu nasze urządzenie będzie w stanie trasować ruch IPv6 oraz wysyłać pakiety RA (_Router Advertisement_), które są potrzebne do automatycznego obliczania adresów IPv6 hostów.
+
+#### Zegar i wyszukiwanie DNS
+W IOSie datę i godzinę ustawiamy za pomocą polecenia (NIE w trybie globalnej konfiguracji, tylko w trybie uprzywilejowania):
+```
+R1_Mickiewicz#clock set godzina:minuta:sekunda dzień nazwa_miesiąca rok
+```
+
+Przykład użycia:
+```
+R1_Mickiewicz#clock set ?
+  hh:mm:ss  Current Time
+R1_Mickiewicz#clock set 19:44:00 ?
+  <1-31>  Day of the month
+  MONTH   Month of the year
+R1_Mickiewicz#clock set 19:44:00 28 ?
+  MONTH  Month of the year
+R1_Mickiewicz#clock set 19:44:00 28 April ?
+  <1993-2035>  Year
+R1_Mickiewicz#clock set 19:44:00 28 April 2025
+```
+
+Gdy nie pamiętasz składni jakiegoś polecenia (np. tego) to wystarczy że wstawisz znak zapytania, a IOS podpowie Ci, co należy teraz podać.
+
+Teraz wyłączmy odwzorowywanie nazw DNS w linii poleceń (to już w trybie konf. globalnej):
+```
+R1_Mickiewicz(config)#no ip domain-lookup
+```
