@@ -316,3 +316,45 @@ Robimy to następującymi poleceniami (dla IPv4 oraz IPv6):
 R1_Mickiewicz(config)#ip route 0.0.0.0 0.0.0.0 155.21.1.2
 R1_Mickiewicz(config)#ipv6 route ::/0 2001:ACAD:B:1::1
 ```
+
+#### Baner
+IOS ma funkcję baneru - tekstu wyświetlanego przy logowaniu, lub też przy łączeniu.
+
+Nasz router R1 obsługuje dwa typy banerów:
+```
+R1_Mickiewicz(config)#banner ?
+  login  Set login banner
+  motd   Set Message of the Day banner
+```
+
+- `login` - wyświetla się wyłącznie przy logowaniu
+- `motd` - wyświetla się przy każdym łączeniu
+
+Użyjemy baneru `MOTD` (_message of the day_):
+```
+R1_Mickiewicz(config)#banner motd #
+Enter TEXT message.  End with the character '#'.
+Nieautoryzowany dostep jest zabroniony i scigany w pelnym zakresie prawa.
+Administrator urzadzenia: Adam Mickiewicz#
+
+R1_Mickiewicz(config)#
+```
+
+Znak `#` na końcu polecenia pozwala nam umieścić w banerze kilka linii. Treść naszego baneru możemy zakończyć właśnie tym znakiem.
+
+
+#### Zapis konfiguracji
+Zapis konfiguracji możemy wykonać poleceniem: `copy running-config startup-config` lub też krócej: `wr`.
+
+Pamiętaj, żeby robić to z trybu uprzywilejowania, a nie z trybu konfiguracji globalnej:
+
+```
+R1_Mickiewicz#wr
+Building configuration...
+[OK]
+R1_Mickiewicz#copy running-config startup-config 
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+R1_Mickiewicz#
+```
