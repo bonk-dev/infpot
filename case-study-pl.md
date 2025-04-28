@@ -235,3 +235,38 @@ R1_Mickiewicz(config)#
 Warto wspomnieć, że hasło możemy ustawić zarówno za pomocą `secret` jak i `password`. Różnica pomiędzy tymi dwoma metodami jest znacząca: hasło ustawione przy użyciu `secret` będzie zahashowane w konfiguracji (będzie niemożliwe do odczytania), podczas gdy `password` zapisze je ot tak w formie możliwej do odzyskania.
 
 #### Adresowanie interfejsów
+W tym kroku skorzystamy z wcześniej przygotowanej tabelki z adresami IP.
+
+Przechodząc do konfiguracji interfejsu `G0/0`, który należy do sieci SLAN1:
+```
+R1_Mickiewicz(config)#interface g0/0
+R1_Mickiewicz(config-if)#ip address 155.21.22.1 255.255.255.0
+R1_Mickiewicz(config-if)#ipv6 address 2001:ACAD:A:0::1/64
+R1_Mickiewicz(config-if)#no shutdown
+
+R1_Mickiewicz(config-if)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/0, changed state to up
+```
+Gdzie polecenie `no shutdown` włącza administracyjnie nasz interfejs (w routerze wszystkie są domyślnie wyłączone).
+
+Interfejs `G0/1` należący do sieci SLAN2 konfigurujemy analogicznie:
+```
+R1_Mickiewicz(config)#interface g0/1
+R1_Mickiewicz(config-if)#ip address 155.21.23.1 255.255.255.128
+R1_Mickiewicz(config-if)#ipv6 address 2001:ACAD:A:1::1/64
+R1_Mickiewicz(config-if)#no shutdown
+
+R1_Mickiewicz(config-if)#
+%LINK-5-CHANGED: Interface GigabitEthernet0/1, changed state to up
+```
+
+Następnie zajmiemy się interfejsem `F0/1/0`. Interfejs ten pochodzi z wcześniej dodanego modułu przekaźnikowego, zatem nie możemy mu bezpośrednio nadać adresu IP. Żądany efekt możemy osiągnąć nadając adres interfejsowi SVI (_Switched Virtual Interface_) - konkretnie interfejsowi odpowiadającemu domyślnemu VLANowi o numerze `1`:
+```
+R1_Mickiewicz(config)#interface vlan 1
+R1_Mickiewicz(config-if)#ip address 155.21.23.129 255.255.255.128
+R1_Mickiewicz(config-if)#ipv6 address 2001:ACAD:A:2::1/64
+R1_Mickiewicz(config-if)#no shutdown
+
+R1_Mickiewicz(config-if)#
+%LINK-5-CHANGED: Interface Vlan1, changed state to up
+```
