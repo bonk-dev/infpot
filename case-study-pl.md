@@ -465,3 +465,14 @@ SLAN1_Mickiewicz#
 
 #### Inne przełączniki
 Przełącznik w sieci SLAN2 oraz przełącznik w SLAN3 konfiguruje się identycznie, jedynie zmieniając adres IPv4 (**oraz maskę podsieci**) i nazwę urządzenia (`hostname`).
+
+### Urządzenia dostępowe
+Po skonfigurowaniu urządzeń sieciowych (routera oraz trzech przełączników) zostaje nam to samo zrobić z komputerami oraz serwerem.
+
+#### Komputery osobiste
+Każdy komputer osobisty konfigurujemy tak samo: ustawiamy adres IPv4, bramę domyślną, oraz włączamy autokonfigurację adresu IPv6. Wszystko to zrobimy za pomocą nakładki graficznej, w zakładce "Config".
+
+<!-- TODO: Add screenshots -->
+
+#### Serwer
+W serwerze również musimy ustawić ręcznie adres IPv4 oraz bramę domyślną. Konfiguracja różni się od PCtów tym, że adresację IPv6 ustawiamy ręcznie - adres, oraz bramę. 
