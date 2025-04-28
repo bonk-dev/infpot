@@ -358,3 +358,101 @@ Building configuration...
 [OK]
 R1_Mickiewicz#
 ```
+
+### Przekaźniki SLAN1/2/3
+Przekaźniki w sieciach SLAN1, SLAN2 i SLAN3 konfiguruje się dokładnie tak samo. Jedynie co się zmienia to nazwa urządzenia (`hostname`) oraz adresy IPv4 (dla przekaźników mieliśmy nie konfigurować adresów IPv6). Z tego powodu opiszę wyłącznie konfigurację przekaźnika SLAN1.
+
+#### Nazwa przekaźnika
+Zmiana nazwy przekaźnika na `SLAN1_Mickiewicz`:
+```
+Switch(config)#hostname SLAN1_Mickiewicz
+SLAN1_Mickiewicz(config)#
+```
+
+#### Hasło do trybu EXEC dla wszystkich linii
+Hasło do trybu EXEC ustawia się dokładnie tak samo, jak w routerze, mając na uwadze to, że w przekaźnikach zarówno ilość, jak i typy linii będą różne.
+
+```
+SLAN1_Mickiewicz(config)#line ?
+  <0-16>   First Line number
+  console  Primary terminal line
+  vty      Virtual terminal
+SLAN1_Mickiewicz(config)#line console
+% Incomplete command.
+SLAN1_Mickiewicz(config)#line console ?
+  <0-0>  First Line number
+SLAN1_Mickiewicz(config)#line console 0
+SLAN1_Mickiewicz(config-line)#password Zaq12wsx
+SLAN1_Mickiewicz(config-line)#login
+SLAN1_Mickiewicz(config-line)#exit
+SLAN1_Mickiewicz(config)#line ?
+  <0-16>   First Line number
+  console  Primary terminal line
+  vty      Virtual terminal
+SLAN1_Mickiewicz(config)#line vty ?
+  <0-15>  First Line number
+SLAN1_Mickiewicz(config)#line vty 0 15
+SLAN1_Mickiewicz(config-line)#password Zaq12wsx
+SLAN1_Mickiewicz(config-line)#login
+SLAN1_Mickiewicz(config-line)#exit
+SLAN1_Mickiewicz(config)#
+```
+
+#### Adresowanie IPv4
+Adres IPv4 możemy nadać przekaźnikowi ustawiając adres na interfejsie SVI (_Switched Virtual Interface_) odpowiadającemu domyślnemu VLANowi o numerze `1`.
+
+```
+SLAN1_Mickiewicz(config)#interface vlan 1
+SLAN1_Mickiewicz(config-if)#ip address 155.21.22.2 255.255.255.0
+SLAN1_Mickiewicz(config-if)#no shutdown
+
+SLAN1_Mickiewicz(config-if)#
+%LINK-5-CHANGED: Interface Vlan1, changed state to up
+```
+
+#### Zegar, data i wyszukiwanie DNS
+Zegar i datę ustawiamy dokładnie tak samo jak w routerze R1:
+
+```
+SLAN1_Mickiewicz#clock set 19:44:00 28 April 2025
+SLAN1_Mickiewicz#
+```
+
+Wyszukiwanie DNS również wyłączamy w identyczny sposób:
+```
+SLAN1_Mickiewicz(config)#no ip domain-lookup 
+SLAN1_Mickiewicz(config)#
+```
+
+#### Baner
+Przekaźnik 2960 obsługuje wyłącznie baner `motd`:
+```
+SLAN1_Mickiewicz(config)#banner ?
+  motd  Set Message of the Day banner
+```
+
+Co za tym idzie, baner skonfigurujemy dokładnie tak, jak zrobiliśmy to w R1:
+```
+SLAN1_Mickiewicz(config)#banner motd #
+Enter TEXT message.  End with the character '#'.
+Nieautoryzowany dostep jest zabroniony i scigany w pelnym zakresie prawa.
+Administrator urzadzenia: Adam Mickiewicz#
+
+SLAN1_Mickiewicz(config)#
+```
+
+#### Zapis konfiguracji
+Konfigurację możemy zapisać (tak jak w R1) na dwa sposoby: `wr` oraz `copy running-config startup-config`:
+```
+SLAN1_Mickiewicz#wr
+Building configuration...
+[OK]
+SLAN1_Mickiewicz#copy running-config startup-config 
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+SLAN1_Mickiewicz#
+```
+
+#### Inne przełączniki
+Przełącznik w sieci SLAN2 oraz przełącznik w SLAN3 konfiguruje się identycznie, jedynie zmieniając adres IPv4 (**oraz maskę podsieci**) i nazwę urządzenia (`hostname`).
