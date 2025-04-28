@@ -307,3 +307,12 @@ Teraz wyłączmy odwzorowywanie nazw DNS w linii poleceń (to już w trybie konf
 ```
 R1_Mickiewicz(config)#no ip domain-lookup
 ```
+
+#### Trasa domyślna
+Następnie musimy ustawić trasę domyślną, z której router będzie korzystał, gdy nie znajdzie zdefiniowanej trasy dla jakiegoś adresu IP. Takim przypadkiem będzie komunikacja z urządzeniami z Internetu - routery (a przynajmniej nasz lokalny) nie mają zdefiniowanych tras dla każdego możliwego zakresu, czy adresu IP, jaki może wystąpić w Internecie - byłoby to strasznie niepraktyczne. Z tego powodu definiujemy trasę domyślną (lub też adres bramy domyślnej). 
+
+Robimy to następującymi poleceniami (dla IPv4 oraz IPv6):
+```
+R1_Mickiewicz(config)#ip route 0.0.0.0 0.0.0.0 155.21.1.2
+R1_Mickiewicz(config)#ipv6 route ::/0 2001:ACAD:B:1::1
+```
