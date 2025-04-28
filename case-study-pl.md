@@ -270,3 +270,13 @@ R1_Mickiewicz(config-if)#no shutdown
 R1_Mickiewicz(config-if)#
 %LINK-5-CHANGED: Interface Vlan1, changed state to up
 ```
+
+#### Obsługa IPv6
+Routery Cisco domyślnie nie są routerami IPv6. Obsługę tego adresowania (i trasowania) włącza się następującym poleceniem:
+
+```
+R1_Mickiewicz(config)#ipv6 unicast-routing 
+R1_Mickiewicz(config)#
+```
+
+Dzięki temu nasze urządzenie będzie w stanie trasować ruch IPv6 oraz wysyłać pakiety RA (_Router Advertisement_), które są potrzebne do automatycznego obliczania adresów IPv6 hostów.
