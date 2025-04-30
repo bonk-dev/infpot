@@ -25,7 +25,7 @@ Jednym z zadań do wykonania jest podzielenie otrzymanej puli adresów na trzy m
 
 Zacznijmy od rozpracowania zadanej puli, co umożliwi nam na wyrobienie sobie ogólnych zasad dotyczących dzielenia na podsieci.
 
-Nasza przydzielona pula to `155.21.22.0/23`. Numer 23 oznacza, że dostępna ilość hostów wynosi `2^(32-23) = 2^9 = 512`. W takim wypadku nasze podsieci będą mogły mieć po 256, 128, 64, 32, 16 itd. adresów. Zadanie wymaga od nas trzech podsieci: 
+Nasza przydzielona pula to `155.21.22.0/23`. Numer 23 oznacza, że dostępna ilość hostów wynosi $2^{32-23} = 2^9 = 512$. W takim wypadku nasze podsieci będą mogły mieć po 256, 128, 64, 32, 16 itd. adresów. Zadanie wymaga od nas trzech podsieci: 
 - SLAN1: maks. 250 urządzeń, 
 - SLAN2: maks. 120 urządzeń,
 - SLAN3: maks. 80 urządzeń.
@@ -35,7 +35,7 @@ Nie mogą one mieć innej ilości adresów, niż potęgi dwójki. W takim razie 
 - SLAN2: 128 adresów -> maska /25 (`255.255.255.128`),
 - SLAN3: 128 adresów -> maska /25 (`255.255.255.128`).
 
-Sprawdzimy tylko, czy na pewno zmieścimy się w naszej przydzielonej puli: `256 + 128 + 128 = 512`. Zmieścimy się :)
+Sprawdzimy tylko, czy na pewno zmieścimy się w naszej przydzielonej puli: $256 + 128 + 128 = 512$. Zmieścimy się :)
 
 Mamy już dobrane maski, przejdźmy do ustalania adresów sieci. Najbardziej intuicyjnie będzie umieścić sieć SLAN1 na początku puli (choć nie musi tak być, co pokażę później), zatem ta sieć będzie mieć adres `155.21.22.0/24`. 
 
@@ -67,9 +67,9 @@ Ostateczny (alternatywny) rozkład sieci:
 ## Adresowanie IPv6
 Sieci IPv6 dzieli się w ten sam sposób, z tym że mamy narzucony mechanizm SLAAC, który działa wyłącznie na podsieciach /64, co znacznie ułatwia segmentację naszej puli.
 
-Do naszej dyspozycji dostaliśmy pulę `2001:ACAD:A::/48`, w której dostępne jest `2^(128-48) = 2^80` adresów, czyli `1 208 925 819 614 629 174 706 176` (dużo). 
+Do naszej dyspozycji dostaliśmy pulę `2001:ACAD:A::/48`, w której dostępne jest $2^{128-48} = 2^{80}$ adresów, czyli `1 208 925 819 614 629 174 706 176` (dużo). 
 
-SLAAC wymusza na nas podział wyłącznie na podsieci /64, które mają `2^64` (również dużo) adresów, więc spokojnie pomieścimy w nich nasze 250, 120 i 80 urządzeń.
+SLAAC wymusza na nas podział wyłącznie na podsieci /64, które mają $2^{64}$ (również dużo) adresów, więc spokojnie pomieścimy w nich nasze 250, 120 i 80 urządzeń.
 
 Prefiksy /16, /32, /48, /64 w IPv6 są odpowiednikami prefiksów /8, /16, /24, /32 z IPv4 w kontekście liczenia adresów sieci (tutaj są to n-te niezerowe wielokrotności liczby 16, w IPv4 liczby 8). W takim przypadku obliczenia kolejnych adresów sieci zostają sprowadzone do zwiększania n-tego bloku o jeden, przykładowo:
 - sieć #1: `2001:BBBB:A:0::0/64`,
