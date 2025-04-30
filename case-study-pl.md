@@ -476,3 +476,79 @@ Każdy komputer osobisty konfigurujemy tak samo: ustawiamy adres IPv4, bramę do
 
 #### Serwer
 W serwerze również musimy ustawić ręcznie adres IPv4 oraz bramę domyślną. Konfiguracja różni się od PCtów tym, że adresację IPv6 ustawiamy ręcznie - adres, oraz bramę. 
+
+## Test komunikacji
+Przedostanim zadaniem z częsci obowiązkowej zostało nam wyłącznie przeprowadzenie testów komunikacji między urządzeniami.
+
+### PC1 oraz PC3 z sieciami lokalnymi
+Z komputerów PC1 oraz PC3 testujemy działanie połączenia między wszystkimi innymi urządzeniami za pomocą polecenia `ping`:
+
+Przykładowo z PC1, test z PC2:
+```
+C:\>ping 155.21.22.21
+
+Pinging 155.21.22.21 with 32 bytes of data:
+
+Reply from 155.21.22.21: bytes=32 time<1ms TTL=128
+Reply from 155.21.22.21: bytes=32 time<1ms TTL=128
+Reply from 155.21.22.21: bytes=32 time<1ms TTL=128
+Reply from 155.21.22.21: bytes=32 time<1ms TTL=128
+
+Ping statistics for 155.21.22.21:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+```
+
+oraz PC1 z PC5 (IPv6):
+```
+C:\>ping 2001:ACAD:A:2::2
+
+Pinging 2001:ACAD:A:2::2 with 32 bytes of data:
+
+Reply from 2001:ACAD:A:2::2: bytes=32 time<1ms TTL=127
+Reply from 2001:ACAD:A:2::2: bytes=32 time<1ms TTL=127
+Reply from 2001:ACAD:A:2::2: bytes=32 time<1ms TTL=127
+Reply from 2001:ACAD:A:2::2: bytes=32 time=8ms TTL=127
+
+Ping statistics for 2001:ACAD:A:2::2:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 8ms, Average = 2ms
+```
+
+Na początku pingi mogą nie przechodzić, ponieważ urządzenia muszą się znaleźć (swoje adresy MAC).
+
+### PC1 oraz PC3 z Internetem
+Test z Internetem odbywa się na tej samej zasadzie, tylko tym razem pingujemy wyłącznie dwa adresy: `80.1.1.1` oraz `2001:DB8:ACAD::1`:
+
+```
+C:\>ping 80.1.1.1
+
+Pinging 80.1.1.1 with 32 bytes of data:
+
+Reply from 80.1.1.1: bytes=32 time<1ms TTL=254
+Reply from 80.1.1.1: bytes=32 time<1ms TTL=254
+Reply from 80.1.1.1: bytes=32 time<1ms TTL=254
+Reply from 80.1.1.1: bytes=32 time<1ms TTL=254
+
+Ping statistics for 80.1.1.1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+
+C:\>ping 2001:DB8:ACAD::1
+
+Pinging 2001:DB8:ACAD::1 with 32 bytes of data:
+
+Reply from 2001:DB8:ACAD::1: bytes=32 time<1ms TTL=254
+Reply from 2001:DB8:ACAD::1: bytes=32 time<1ms TTL=254
+Reply from 2001:DB8:ACAD::1: bytes=32 time<1ms TTL=254
+Reply from 2001:DB8:ACAD::1: bytes=32 time<1ms TTL=254
+
+Ping statistics for 2001:DB8:ACAD::1:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+```
+
