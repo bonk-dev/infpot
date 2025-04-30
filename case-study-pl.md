@@ -608,3 +608,92 @@ Vlan    Mac Address       Type        Ports
 Znając adresy MAC `PC1` i `PC2`, z powyższej możemy odczytać, że `PC1` jest podpięty do portu `Fa0/10`, a `PC2` do `Fa0/11`.
 
 _Jeżeli jednego z komputerów (albo dwóch) nie ma w tabeli, wykonaj jeszcze raz ping - wpis mógł wygasnąć._
+
+### Router R1
+Ostatnim zadaniem jest odczytanie pewnych informacji z poziomu konsoli routera R1.
+
+#### Grupy multicastowe G0/1
+Grupy multicastowe są częścią protokołu IPv6. Informacje o stanie działaniu IPv6 w danym interfejsie (w tym przypadku G0/1) możemy odczytać za pomocą `show ipv6 interface g0/1`:
+
+```
+R1_Mickiewicz#show ipv6 interface g0/1
+GigabitEthernet0/1 is up, line protocol is up
+  IPv6 is enabled, link-local address is FE80::201:97FF:FE4A:C102
+  No Virtual link-local address(es):
+  Global unicast address(es):
+    2001:ACAD:A:1::1, subnet is 2001:ACAD:A:1::/64
+  Joined group address(es):
+    FF02::1
+    FF02::2
+    FF02::1:FF00:1
+    FF02::1:FF4A:C102
+  MTU is 1500 bytes
+[...]
+```
+
+Z wyniku polecenia możemy odczytać, że interfejs przystąpił do grup:
+- FF02::1
+- FF02::2
+- FF02::1:FF00:1
+- FF02::1:FF4A:C102
+
+#### Adresy IPv4 i IPv6
+Adresy IP możemy odczytać za pomocą tego samego polecenia, z pominięciem nazwy interfejsu. Zamiast nazwy możemy dodać `brief`, co spowoduje wyświetlenie mniejszej ilości informacji:
+
+```
+R1_Mickiewicz#show ip interface brief
+Interface              IP-Address      OK? Method Status                Protocol 
+GigabitEthernet0/0     155.21.22.1     YES manual up                    up 
+GigabitEthernet0/1     155.21.23.1     YES manual up                    up 
+GigabitEthernet0/0/0   155.21.1.2      YES manual up                    up 
+FastEthernet0/1/0      unassigned      YES unset  up                    up 
+FastEthernet0/1/1      unassigned      YES unset  up                    down 
+FastEthernet0/1/2      unassigned      YES unset  up                    down 
+FastEthernet0/1/3      unassigned      YES unset  up                    down 
+Vlan1                  155.21.23.129   YES manual up                    up
+```
+
+Teraz dla IPv6:
+```
+R1_Mickiewicz#show ipv6 interface brief
+GigabitEthernet0/0         [up/up]
+    FE80::201:97FF:FE4A:C101
+    2001:ACAD:A::1
+GigabitEthernet0/1         [up/up]
+    FE80::201:97FF:FE4A:C102
+    2001:ACAD:A:1::1
+GigabitEthernet0/0/0       [up/up]
+    FE80::230:F2FF:FED7:AE84
+    2001:ACAD:B:1::2
+FastEthernet0/1/0          [up/up]
+FastEthernet0/1/1          [up/down]
+FastEthernet0/1/2          [up/down]
+FastEthernet0/1/3          [up/down]
+Vlan1                      [up/up]
+    FE80::240:BFF:FE2B:1DBD
+    2001:ACAD:A:2::1
+```
+
+#### Wersja IOS i rozmiar flash
+Informacje o sprzęcie, czy też wersji IOS odczytujemy za pomocą `show version`:
+
+```
+R1_Mickiewicz#show version
+Cisco IOS Software, C1900 Software (C1900-UNIVERSALK9-M), Version 15.1(4)M4, RELEASE SOFTWARE (fc2)
+
+[...]
+
+Cisco CISCO1941/K9 (revision 1.0) with 491520K/32768K bytes of memory.
+Processor board ID FTX152400KS
+4 FastEthernet interface(s)
+3 Gigabit Ethernet interfaces
+DRAM configuration is 64 bits wide with parity disabled.
+255K bytes of non-volatile configuration memory.
+249856K bytes of ATA System CompactFlash 0 (Read/Write)
+
+[...]
+```
+
+Z powyższej ściany tekstu można odczytać:
+- wersję IOSa: `15.1(4)M4`,
+- rozmiar dysku flash: `249856K`.
