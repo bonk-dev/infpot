@@ -1,4 +1,4 @@
-# Case study z sieci - notatki
+# Case study
 Autor: Dawid Pągowski
 
 ## Wstęp
