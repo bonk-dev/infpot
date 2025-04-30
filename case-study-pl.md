@@ -552,3 +552,59 @@ Approximate round trip times in milli-seconds:
     Minimum = 0ms, Maximum = 0ms, Average = 0ms
 ```
 
+## Odczyt informacji z urządzeń sieciowych
+Pozstaje nam odczytać zadane informacje z przełącznika SLAN1 oraz routera R1.
+
+### Przełącznik SLAN1
+Z przełącznika mamy odczytać adresy MAC komputerów PC1 oraz PC2, znając jedynie ich adresy IPv4 (`155.21.22.20` oraz `155.21.22.21`), oraz interfejsy do jakich są podłączone.
+
+#### Adresy MAC
+Do odwzorowywania adresów IP na adresy MAC służy tablica ARP, zatem zobaczmy czy znajdują się tam nasze komputery:
+
+```
+SLAN1_Mickiewicz#show arp
+Protocol  Address          Age (min)  Hardware Addr   Type   Interface
+Internet  155.21.22.2             -   0009.7C79.7365  ARPA   Vlan1
+```
+
+Niestety, w tablicy znajduje się jedynie nasz przełącznik. Jak możemy zmusić przełącznik do użycia protokołu ARP do znalezenia adresu fizycznego naszych komputerów? W IOSie (tak jak na PCtach) dostępne jest polecenie ping:
+
+```
+SLAN1_Mickiewicz#ping 155.21.22.20
+
+Type escape sequence to abort.
+Sending 5, 100-byte ICMP Echos to 155.21.22.20, timeout is 2 seconds:
+.!!!!
+Success rate is 80 percent (4/5), round-trip min/avg/max = 0/0/0 ms
+```
+
+Nie dostaliśmy odpowiedzi na pierwsze zapytanie (przełącznik pewnie dowiadywał się na jaki adres fizyczny je w ogóle wysłać). Wykonam również ping kompputera PC2: `ping 155.21.22.21`. Sprawdźmy, czy w tablicy tym razem będą nasze szukane urządzenia:
+
+```
+SLAN1_Mickiewicz#show arp
+Protocol  Address          Age (min)  Hardware Addr   Type   Interface
+Internet  155.21.22.2             -   0009.7C79.7365  ARPA   Vlan1
+Internet  155.21.22.20            2   0030.F2B1.C99B  ARPA   Vlan1
+Internet  155.21.22.21            0   0002.4A8D.53DD  ARPA   Vlan1
+```
+
+Z powyższej tablicy wynika, że `PC1` o adresie IP `155.21.22.20` posiada adres fizyczny `00:30:F2:B1:C9:9B`, natomiast adres MAC `PC2` to `00:02:4A:8D:53:DD`.
+
+#### Interfejsy
+Nazwy interfejsów, do jakich podpięte są PC1 i PC2 możemy odczytać za pomocą polecenia `show mac-address-table`:
+
+```
+SLAN1_Mickiewicz#show mac-address-table 
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+
+   1    0001.974a.c101    DYNAMIC     Gig0/1
+   1    0002.4a8d.53dd    DYNAMIC     Fa0/11
+   1    0030.f2b1.c99b    DYNAMIC     Fa0/10
+```
+Znając adresy MAC `PC1` i `PC2`, z powyższej możemy odczytać, że `PC1` jest podpięty do portu `Fa0/10`, a `PC2` do `Fa0/11`.
+
+_Jeżeli jednego z komputerów (albo dwóch) nie ma w tabeli, wykonaj jeszcze raz ping - wpis mógł wygasnąć._
