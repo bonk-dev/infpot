@@ -697,3 +697,5 @@ DRAM configuration is 64 bits wide with parity disabled.
 Z powyższej ściany tekstu można odczytać:
 - wersję IOSa: `15.1(4)M4`,
 - rozmiar dysku flash: `249856K`.
+
+<!-- TODO: Add extra tasks -->
