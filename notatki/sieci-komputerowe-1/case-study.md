@@ -112,7 +112,7 @@ Sieci SLAN1 nadaliśmy następujące adresy:
 i znajdują się w niej 4 urządzenia:
 - PC1,
 - PC2,
-- przekaźnik SLAN1_{nazwisko},
+- przekaźnik SLAN1_\{nazwisko\},
 - router R1 (interfejs G0/0).
 
 W nadawaniu adresów mamy pełną swobodę, dopóki używamy adresów z zakresu wydzielonej sieci oraz **nie** wykorzystujemy adresów sieci (pierwszego) oraz rozgłaszania (ostatniego) dla hostów.
