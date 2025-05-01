@@ -1,0 +1,10 @@
+.center {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.caption {
+    font-style: italic;
+    font-size: .8rem;
+}
