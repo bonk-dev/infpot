@@ -8,3 +8,8 @@
     font-style: italic;
     font-size: .8rem;
 }
+
+/* Used for SVGs which utilize the light-dark() CSS function */
+.noColorScheme, .noColorScheme * {
+    color-scheme: unset !important;
+}

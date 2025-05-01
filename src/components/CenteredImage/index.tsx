@@ -1,12 +1,19 @@
 import type {ReactNode} from 'react';
 import styles from './styles.module.css';
 
-export default function CenteredImage({ src, alt }): ReactNode {
+interface CenteredImageProps {
+    src: string | ReactNode,
+    alt?: string
+};
+
+export default function CenteredImage({ src, alt }: CenteredImageProps): ReactNode {
   return (
     <div>
         <div className={styles.center}>
             <article>
-                <img src={src} alt={alt}/>
+                { typeof src === 'string' 
+                    ? (<img src={src} alt={alt}/>) 
+                    : <span className={styles.noColorScheme}>{src}</span> }
             </article>
         </div>
         <p className={styles.caption}>{alt}</p>
