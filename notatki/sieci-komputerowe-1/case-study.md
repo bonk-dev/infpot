@@ -1,4 +1,5 @@
 import CenteredImage from '@site/src/components/CenteredImage'
+import NetworkDiagramSvg from './assets/network-diagram.svg'
 
 # Case study
 Autor: Dawid Pągowski
@@ -12,6 +13,10 @@ Zostały przewidziane również dodatkowe zadania: skonfigurowanie strefy DNS, a
 Zanim dodamy urządzenia, muszę wspomnieć o pewnej opcji w ustawieniach: "zawsze pokazuj etykiety portów w logicznym obszarze roboczym". Dzięki tej opcji, po podłączeniu urządzeń, nie będziemy musieli sprawdzać za każdym razem do którego portu wpięte są jakie kable.
 
 Do wykonania zadań będziemy potrzebowali kilku urządzeń: 5 komputerów, 1 serwer, 3 przekaźniki (model 2960) oraz dwa routery (model 1941). Każdemu dodanemu sprzętowi, dla ułatwienia, wolno nam przypisać "nazwy wyświetlania".
+
+<CenteredImage 
+  src={<NetworkDiagramSvg/>} 
+  alt='Diagram sieci do przygotowania w programie Cisco Packet Tracker'/>
 
 W naszym case study przewidziany został test połączenia z Internetem, który w naszym przypadku jest emulowany za pomocą dodatkowego routera, połączonego z naszym krawędziowym za pomocą światłowodu. Jest jeden problem, mianowicie routery 1941 nie posiadają wbudowanego modułu obsługującego takich połączeń. Nic strasznego, akurat te jednostki są modularne, więc jesteśmy w stanie taki moduł po prostu dodać (zanim to zrobimy, musimy najpierw to urządzenie wyłączyć). Konieczna jest również wkładka optyczna (GLC-LH-SMD).
 
