@@ -1,3 +1,5 @@
+import CenteredImage from '@site/src/components/CenteredImage'
+
 # Case study
 Autor: Dawid Pągowski
 
@@ -472,10 +474,22 @@ Po skonfigurowaniu urządzeń sieciowych (routera oraz trzech przełączników) 
 #### Komputery osobiste
 Każdy komputer osobisty konfigurujemy tak samo: ustawiamy adres IPv4, bramę domyślną, oraz włączamy autokonfigurację adresu IPv6. Wszystko to zrobimy za pomocą nakładki graficznej, w zakładce "Config".
 
-<!-- TODO: Add screenshots -->
+<CenteredImage 
+  src={require('./assets/pc1-fastethernet-config.png').default} 
+  alt='Konfiguracja adresu IP w komputerach osobistych'/>
+<CenteredImage 
+  src={require('./assets/pc1-gateway-config.png').default} 
+  alt='Konfiguracja bramy domyślnej w komputerach osobistych'/>
 
 #### Serwer
 W serwerze również musimy ustawić ręcznie adres IPv4 oraz bramę domyślną. Konfiguracja różni się od PCtów tym, że adresację IPv6 ustawiamy ręcznie - adres, oraz bramę. 
+
+<CenteredImage 
+  src={require('./assets/server1-fastethernet-config.png').default} 
+  alt='Konfiguracja adresu IP w serwerze'/>
+<CenteredImage 
+  src={require('./assets/server1-gateway-config.png').default} 
+  alt='Konfiguracja bramy domyślnej w serwerze'/>
 
 ## Test komunikacji
 Przedostanim zadaniem z częsci obowiązkowej zostało nam wyłącznie przeprowadzenie testów komunikacji między urządzeniami.
