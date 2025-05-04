@@ -13,7 +13,7 @@ export default function CenteredImage({ src, alt }: CenteredImageProps): ReactNo
             <article>
                 { typeof src === 'string' 
                     ? (<img src={src} alt={alt}/>) 
-                    : <span className={styles.noColorScheme}>{src}</span> }
+                    : <span className={styles.noColorScheme + ' ' + styles.svgResize}>{src}</span> }
             </article>
         </div>
         <p className={styles.caption}>{alt}</p>
