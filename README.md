@@ -7,9 +7,9 @@ Site built using [Docusaurus](https://docusaurus.io/), a modern static web page 
 - Source code and configs: 
   [MIT](/LICENSE)
 - Notes/pages (`notatki/` dir): 
-  [CC-BY-4.0](notatki/LICENSE)
+  [CC-BY-4.0](LICENSE-notatki)
 - Graphics (`static/img/` dir): 
-  [CC-BY-4.0](static/img/LICENSE)
+  [CC-BY-4.0](LICENSE-static-img)
 
 ## Installation
 
