@@ -1,3 +1,15 @@
+---
+title: "Zadanie 'case study'"
+description: "Opracowanie zadania 'case study' z laboratorium z sieci komputerowych 1"
+keywords: 
+  - sieci komputerowe 1
+  - polsl
+  - case study
+  - laboratorium
+  - cisco
+  - cisco packet tracer
+---
+
 import CenteredImage from '@site/src/components/CenteredImage'
 import NetworkDiagramSvg from './assets/network-diagram.svg'
 
