@@ -3,19 +3,27 @@ Notes about computer science (or informatics)
 
 Site built using [Docusaurus](https://docusaurus.io/), a modern static web page generator.
 
-### Installation
+## License
+- Source code and configs: 
+  [MIT](/LICENSE)
+- Notes/pages (`notatki/` dir): 
+  [CC-BY-4.0](notatki/LICENSE)
+- Graphics (`static/img/` dir): 
+  [CC-BY-4.0](static/img/LICENSE)
+
+## Installation
 
 ```
 $ npm install
 ```
 
-### Local Development
+## Local Development
 
 ```
 $ npm start
 ```
 
-### Build
+## Build
 
 ```
 $ npm run build
