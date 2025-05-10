@@ -14,12 +14,12 @@ Na początek musimy przygotować odpowiednią topologię w Packet Tracerze.
 
 Ustawiamy bramy domyślne na obu komputerach:
 <CenteredImage 
-  src={require('./assets/zadanie1-1-gateways.jpg').default} 
+  src={require('./assets/zadanie1-1-gateways.webp').default} 
   alt='Okienka konfiguracji komputerów PC-A (po lewej) oraz PC-B (po prawej), zakładka z bramami domyślnymi'/>
 
 Następnie konfigurujemy adresy IP w komputerach:
 <CenteredImage 
-  src={require('./assets/zadanie1-2-ipaddresses.jpg').default} 
+  src={require('./assets/zadanie1-2-ipaddresses.webp').default} 
   alt='Okienka konfiguracji komputerów PC-A (po lewej) oraz PC-B (po prawej), zakładka FastEthernet0'/>
 
 Mamy jeszcze do wykonania kilka zadań w routerze. Musimy:
@@ -112,19 +112,19 @@ R1#
 Sprawdzimy jeszcze czy możemy spingować naszą bramę domyślną oraz PC-B z poziomu PC-A.
 Polecenie `ping` jest dostępne z poziomu programu "Command Prompt" z pulpitu komputera PC-A:
 <CenteredImage 
-  src={require('./assets/zadanie1-3-desktop.jpg').default} 
+  src={require('./assets/zadanie1-3-desktop.webp').default} 
   alt='Pulpit komputera PC-A w programie Packet Tracer ze strzałką wskazującą Command Prompt'/>
 
 Uruchamiamy dwa polecenia `ping`: jedno pingujące bramę i drugie pingujące PC-B:
 <CenteredImage 
-  src={require('./assets/zadanie1-4-ping.jpg').default} 
+  src={require('./assets/zadanie1-4-ping.webp').default} 
   alt='Wyjście dwóch poleceń ping wskazujące na poprawne działanie sieci'/>
 
 ## Odczyt adresu MAC w Windowsie
 W tym kroku musimy odczytać adres MAC karty sieciowej w naszym systemie Windows.
 Zrobimy to za pomocą wiersza poleceń (`cmd.exe`), wykorzystując polecenie `ipconfig` z przełącznikiem `/all`:
 <CenteredImage 
-  src={require('./assets/zadanie1-5-ipconfig-all-windows.jpg').default} 
+  src={require('./assets/zadanie1-5-ipconfig-all-windows.webp').default} 
   alt='Wynik polecenia ipconfig /all. Zaznaczony adres MAC interfejsu sieciowego "Ethernet 4"'/>
 
 Z powyższego zrzutu możemy odczytać, że adres fizyczny interfejsu "Ethernet 4" to `52-54-00-22-54-89`.
@@ -141,11 +141,11 @@ Zatem w naszym adresie:
 
 Dodatkowo musimy jeszcze znaleźć nazwę producenta na podstawie jego identyfikatora (OUI). W tym celu możemy posłużyć się stroną [maclookup.app](https://maclookup.app):
 <CenteredImage 
-  src={require('./assets/zadanie1-7-vm-mac.png').default} 
+  src={require('./assets/zadanie1-7-vm-mac.webp').default} 
   alt='Wynik wyszukania na maclookup.app - adres LAA'/>
 Mój adres okazał się adresem zarządzanym lokalnie (LAA), zatem część OUI nie odpowiada żadnemu producentowi. Na potrzeby przykładu załóżmy, że adres MAC interfejsu był inny: `50:EB:F6:42:75:02`:
 <CenteredImage 
-  src={require('./assets/zadanie1-8-asustek-mac.png').default} 
+  src={require('./assets/zadanie1-8-asustek-mac.webp').default} 
   alt='Wynik wyszukania na maclookup.app - adres 50:EB:F6:42:75:02'/>
 W tym adresie OUI to `50:EB:F6`, który, jak widać, odpowiada producentowi "ASUSTek COMPUTER INC.".
 
