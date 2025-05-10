@@ -108,6 +108,7 @@ Building configuration...
 R1#
 ```
 
+### Test połączenia
 Sprawdzimy jeszcze czy możemy spingować naszą bramę domyślną oraz PC-B z poziomu PC-A.
 Polecenie `ping` jest dostępne z poziomu programu "Command Prompt" z pulpitu komputera PC-A:
 <CenteredImage 
@@ -188,3 +189,87 @@ oraz dwa odpowiadające im adresy warstwy 3 (adresy IP):
 - `192.168.1.1`
 
 W tablicy nie widać niczego o naszym przełączniku S1. Jest to spowodowane tym, że nie nadaliśmy przełącznikowi adresu IP (a tablica ARP zawiera odwzorowania adresów IP na adresy MAC). Jednakże samo skonfigurowanie adresu IP na przełączniku mogłoby nie wystarczyć - musiałaby zajść komunikacja pomiędzy routerem a switchem, żeby router wprowadził odwzorowanie do swojej tablicy.
+
+## Odczyt adresów MAC w przełączniku
+Odczytaliśmy już adresy MAC w Windowsie i routerze, teraz zajmiemy się przełącznikiem.
+
+### Interfejsy F0/5 i F0/6
+Na początek odczytamy adres interfejsu `F0/5`:
+```
+Switch>show interfaces f0/5
+FastEthernet0/5 is up, line protocol is up (connected)
+  Hardware is Lance, address is 0090.2b0d.2e05 (bia 0090.2b0d.2e05)
+ BW 100000 Kbit, DLY 1000 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Full-duplex, 100Mb/s
+[...]
+```
+Adres MAC interfejsu F0/5: `0090.2b0d.2e05`.
+
+Następnie z interfejsu `F0/6`:
+```
+Switch>show interfaces f0/6
+FastEthernet0/6 is down, line protocol is down (disabled)
+  Hardware is Lance, address is 0090.2b0d.2e06 (bia 0090.2b0d.2e06)
+ BW 100000 Kbit, DLY 1000 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+  Keepalive set (10 sec)
+  Half-duplex, 100Mb/s
+[...]
+```
+Adres MAC interfejsu F0/6: `0090.2b0d.2e06`.
+
+Porównując OUI interfejsów przełącznika i routera R1:
+- Przełącznik - `F0/5`: `00:90:2B`,
+- Przełącznik - `F0/6`: `00:90:2B`,
+- R1 - `G0/0`: `00:90:2B`,
+
+widzimy, że w moim przypadku są takie same.
+
+### Tablica adresów MAC
+W naszym przełączniku możemy wyświetlić tablicę adresów MAC za pomocą polecenia `show mac-address-table`:
+```
+Switch>show mac-address-table 
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+
+   1    0090.2b4a.9601    DYNAMIC     Fa0/1
+```
+
+W mojej tablicy pojawił się tylko adres routera R1, który jest podłączony do portu `Fa0/1`.
+
+Po ponownym spingowaniu komputera PC-B z poziomu komputera PC-A (jak w kroku [Test połączenia](#test-połączenia)):
+```
+C:\>ping 192.168.0.3
+
+Pinging 192.168.0.3 with 32 bytes of data:
+
+Request timed out.
+Reply from 192.168.0.3: bytes=32 time<1ms TTL=127
+Reply from 192.168.0.3: bytes=32 time<1ms TTL=127
+Reply from 192.168.0.3: bytes=32 time<1ms TTL=127
+
+Ping statistics for 192.168.0.3:
+    Packets: Sent = 4, Received = 3, Lost = 1 (25% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 0ms, Maximum = 0ms, Average = 0ms
+```
+i po powtórzeniu polecenia `show mac-address-table ` w przełączniku:
+```
+Switch>show mac-address-table 
+          Mac Address Table
+-------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       --------    -----
+
+   1    0007.eca6.c7d8    DYNAMIC     Fa0/5
+   1    0090.2b4a.9601    DYNAMIC     Fa0/1
+```
+pojawił się wpis z adresem MAC komputera PC-A. Komputer PC-A jest podłączony do portu `Fa0/5`.
