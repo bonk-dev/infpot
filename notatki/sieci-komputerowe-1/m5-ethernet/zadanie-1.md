@@ -147,3 +147,44 @@ Mój adres okazał się adresem zarządzanym lokalnie (LAA), zatem część OUI 
   src={require('./assets/zadanie1-8-asustek-mac.png').default} 
   alt='Wynik wyszukania na maclookup.app - adres 50:EB:F6:42:75:02'/>
 W tym adresie OUI to `50:EB:F6`, który, jak widać, odpowiada producentowi "ASUSTek COMPUTER INC.".
+
+## Odczyt adresu MAC w routerze
+W tej sekcji zajmiemy się odczytaniem adresu MAC jednego z interfejsów (`G0/0`) w routerze R1.
+
+### Wyświetlenie informacji o interfejsie
+W konsoli routera:
+```
+R1>show interfaces g0/0
+GigabitEthernet0/0 is up, line protocol is up (connected)
+  Hardware is CN Gigabit Ethernet, address is 0090.2b4a.9601 (bia 0090.2b4a.9601)
+  Internet address is 192.168.1.1/24
+  MTU 1500 bytes, BW 1000000 Kbit, DLY 100 usec,
+     reliability 255/255, txload 1/255, rxload 1/255
+  Encapsulation ARPA, loopback not set
+[...]
+```
+
+W moim przypadku adres MAC interfejsu G0/0 to `00:90:2B:4A:96:01`, OUI to `00:90:2B`, numer seryjny to `4A:96:01`, a producent to "Cisco Systems, Inc" (pozyskany za pomocą [maclookup.app](https://maclookup.app/search/result?mac=00:90:2B:4A:96:01)).
+
+W wyniku polecenia `show interfaces` uzyskaliśmy dwa jednakowe adresy MAC. Pierwszy z nich jest aktualnie wykorzystywanym adresem, który możemy zmienić za pomocą polecenia `mac aaaa.bbbb.cccc` będąc w trybie konfiguracji interfejsu. 
+
+Drugi z tych adresów (poprzedzony napisem `bia`) jest adresem na stałe wypalonym w pamięci ROM karty sieciowej - "burned-in address". Adres BIA jest używany jako domyślny efektywny adres. Nie jesteśmy w stanie go zmienić.
+
+### Wyświetlenie tablicy ARP
+W konsoli routera możemy jeszcze wyświetlić tablicę ARP, która zawiera odwzorowania adresów IP na adresy MAC, za pomocą polecenia `show arp`:
+```
+R1>show arp
+Protocol  Address          Age (min)  Hardware Addr   Type   Interface
+Internet  192.168.0.1             -   0090.2B4A.9602  ARPA   GigabitEthernet0/1
+Internet  192.168.1.1             -   0090.2B4A.9601  ARPA   GigabitEthernet0/0
+```
+
+W moim przypadku wyświetliły się dwa adresy warstwy 2 (adresy MAC):
+- `0090.2B4A.9602` (`00:90:2B:4A:96:02`)
+- `0090.2B4A.9601` (`00:90:2B:4A:96:01`)
+
+oraz dwa odpowiadające im adresy warstwy 3 (adresy IP):
+- `192.168.0.1`
+- `192.168.1.1`
+
+W tablicy nie widać niczego o naszym przełączniku S1. Jest to spowodowane tym, że nie nadaliśmy przełącznikowi adresu IP (a tablica ARP zawiera odwzorowania adresów IP na adresy MAC). Jednakże samo skonfigurowanie adresu IP na przełączniku mogłoby nie wystarczyć - musiałaby zajść komunikacja pomiędzy routerem a switchem, żeby router wprowadził odwzorowanie do swojej tablicy.
