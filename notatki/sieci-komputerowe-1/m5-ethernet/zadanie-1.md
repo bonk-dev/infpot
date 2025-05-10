@@ -273,3 +273,11 @@ Vlan    Mac Address       Type        Ports
    1    0090.2b4a.9601    DYNAMIC     Fa0/1
 ```
 pojawił się wpis z adresem MAC komputera PC-A. Komputer PC-A jest podłączony do portu `Fa0/5`.
+
+## Transmisja rozgłoszeniowa - warstwa 2
+Na poziomie warstwy 2 jest możliwa transmisja rozgłoszeniowa. Jak podaje norma:
+“_All 1’s in the Destination Address field shall be predefined to be the Broadcast Address._” [IEEE Std 802.3-2022, Sec. 3.2.3.1, p. 241].
+
+Zatem taki adres będzie miał postać: `11111111:11111111:11111111:11111111:11111111:11111111`
+
+czyli po prostu: `FF:FF:FF:FF:FF:FF`.
