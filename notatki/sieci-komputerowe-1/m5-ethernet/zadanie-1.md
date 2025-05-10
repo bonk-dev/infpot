@@ -1,3 +1,15 @@
+---
+title: "Zadanie 1"
+description: "Opracowanie zadania 1. z modułu 5 \"Ethernet\" z sieci komputerowych 1"
+keywords: 
+  - sieci komputerowe 1
+  - polsl
+  - moduł 5
+  - laboratorium
+  - cisco
+  - cisco packet tracer
+---
+
 import CenteredImage from '@site/src/components/CenteredImage'
 import NetworkDiagramSvg from './assets/zadanie1-0-topology.svg'
 import MacAddressStructureSvg from './assets/zadanie1-6-mac.svg'
