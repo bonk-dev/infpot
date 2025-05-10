@@ -1,5 +1,6 @@
 import CenteredImage from '@site/src/components/CenteredImage'
 import NetworkDiagramSvg from './assets/zadanie1-0-topology.svg'
+import MacAddressStructureSvg from './assets/zadanie1-6-mac.svg'
 
 # Zadanie 1
 Autor: Dawid Pągowski
@@ -117,3 +118,32 @@ Uruchamiamy dwa polecenia `ping`: jedno pingujące bramę i drugie pingujące PC
 <CenteredImage 
   src={require('./assets/zadanie1-4-ping.jpg').default} 
   alt='Wyjście dwóch poleceń ping wskazujące na poprawne działanie sieci'/>
+
+## Odczyt adresu MAC w Windowsie
+W tym kroku musimy odczytać adres MAC karty sieciowej w naszym systemie Windows.
+Zrobimy to za pomocą wiersza poleceń (`cmd.exe`), wykorzystując polecenie `ipconfig` z przełącznikiem `/all`:
+<CenteredImage 
+  src={require('./assets/zadanie1-5-ipconfig-all-windows.jpg').default} 
+  alt='Wynik polecenia ipconfig /all. Zaznaczony adres MAC interfejsu sieciowego "Ethernet 4"'/>
+
+Z powyższego zrzutu możemy odczytać, że adres fizyczny interfejsu "Ethernet 4" to `52-54-00-22-54-89`.
+
+<!-- TODO: Replace with a better SVG, as draw.io doesn't export monospace text properly I guess -->
+Z odczytanego adresu mamy wypisać identyfikator OUI, oraz część opisującą numer seryjny urządzenia:
+<CenteredImage
+  src={<MacAddressStructureSvg/>}
+  alt='Schemat przedstawiąjący dwie części Ethernetowego adresu MAC'/>
+
+Zatem w naszym adresie:
+- OUI: `52-54-00`,
+- część seryjna: `22-54-89`.
+
+Dodatkowo musimy jeszcze znaleźć nazwę producenta na podstawie jego identyfikatora (OUI). W tym celu możemy posłużyć się stroną [maclookup.app](https://maclookup.app):
+<CenteredImage 
+  src={require('./assets/zadanie1-7-vm-mac.png').default} 
+  alt='Wynik wyszukania na maclookup.app - adres LAA'/>
+Mój adres okazał się adresem zarządzanym lokalnie (LAA), zatem część OUI nie odpowiada żadnemu producentowi. Na potrzeby przykładu załóżmy, że adres MAC interfejsu był inny: `50:EB:F6:42:75:02`:
+<CenteredImage 
+  src={require('./assets/zadanie1-8-asustek-mac.png').default} 
+  alt='Wynik wyszukania na maclookup.app - adres 50:EB:F6:42:75:02'/>
+W tym adresie OUI to `50:EB:F6`, który, jak widać, odpowiada producentowi "ASUSTek COMPUTER INC.".
