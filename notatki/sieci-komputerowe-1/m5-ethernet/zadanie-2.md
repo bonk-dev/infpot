@@ -66,3 +66,9 @@ Nadajemy nazwę naszej regule i klikamy przycisk "Zakończ":
 <CenteredImage 
   src={require('./assets/5-2/6-icmpv4-finish.webp').default} 
   alt='Kreator nowej reguły, w pole nazwa wpisane "Zezwól na żądania ICMPv4"'/>
+
+### Reguła ICMPv6 w zaporze
+Analogicznie postępujemy dla protokołu ICMPv6, mając na uwadze to, że w kroku gdzie wybieramy protokół, musimy wskazać ICMPv6:
+<CenteredImage 
+  src={require('./assets/5-2/7-icmpv6.webp').default} 
+  alt='Kreator nowej reguły, wybrany typ protokołu ICMPv6'/>
