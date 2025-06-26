@@ -312,6 +312,15 @@ R1_Mickiewicz(config-if)#
 %LINK-5-CHANGED: Interface Vlan1, changed state to up
 ```
 
+Na koniec ustawiamy adres na interfejsie światłowodowym `G0/0/0`:
+```
+R1_Mickiewicz(config)#interface g0/0/0
+R1_Mickiewicz(config-if)#ip add
+R1_Mickiewicz(config-if)#ip address 155.21.1.2 255.255.255.252
+R1_Mickiewicz(config-if)#ipv6 address 2001:ACAD:B:1::2/64
+R1_Mickiewicz(config-if)#no shutdown
+```
+
 #### Obsługa IPv6
 Routery Cisco domyślnie nie są routerami IPv6. Obsługę tego adresowania (i trasowania) włącza się następującym poleceniem:
 
