@@ -34,6 +34,10 @@ W naszym case study przewidziany został test połączenia z Internetem, który 
 
 W routerze "R1" brakuje jeszcze jednej rzeczy - portu Ethernet. W topologii występują 3 przekaźniki, a w modelu 1941 występują tylko dwa porty. W tym wypadku musimy dodać kolejny moduł - przekaźnikowy moduł HWIC-4ESW.
 
+<video controls preload='metadata' class="saturday-video" aria-hidden="true">
+    <source src={require('./assets/adding-hw-modules.webm').default} />
+</video>
+
 Po walce z dodawaniem modułów, zostało nam połączenie położonych jednostek kablami. Router ISP z R1 należy połączyć światłowodem.
 
 ### Konfiguracja routera ISP
