@@ -37,7 +37,25 @@ W routerze "R1" brakuje jeszcze jednej rzeczy - portu Ethernet. W topologii wyst
 Po walce z dodawaniem modułów, zostało nam połączenie położonych jednostek kablami. Router ISP z R1 należy połączyć światłowodem.
 
 ### Konfiguracja routera ISP
-Zanim przejdziemy do faktycznych zadań, musimy skonfigurować router dostawcy. Gotowe polecenia mamy w dokumencie, wystarczy je przepisać.
+Zanim przejdziemy do faktycznych zadań, musimy skonfigurować router dostawcy. Gotowe polecenia mamy w dokumencie, wystarczy je przepisać:
+
+```
+Router(config)# hostname ISP
+ISP(config)# interface g0/0/0
+ISP(config-if)# ip address 155.21.1.1 255.255.255.252
+ISP(config-if)# ipv6 address 2001:ACAD:B:1::1/64
+ISP(config-if)# no shutdown
+ISP(config-if)# interface loopback0
+ISP(config-if)# ip address 80.1.1.1 255.255.255.255
+ISP(config-if)# ipv6 address 2001:db8:acad::1/64
+ISP(config-if)# no shutdown
+ISP(config-if)# exit
+ISP(config)# ip route 155.21.22.0 255.255.254.0 155.21.1.2
+ISP(config)# ipv6 route 2001:ACAD:A::/48 2001:ACAD:B:1::2
+ISP(config)# end
+ISP# copy running-config startup-config
+ISP#
+```
 
 ## Adresowanie IPv4
 Jednym z zadań do wykonania jest podzielenie otrzymanej puli adresów na trzy mniejsze. W IPv4 dzielenie na podsieci odbywa się przez zwiększanie ilości bitów w masce podsieci (czyli ten numer po slashu). Istnieje pewna prosta reguła, pozwalająca na dzielenie podsieci, nawet w pamięci.
