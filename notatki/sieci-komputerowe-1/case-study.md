@@ -469,6 +469,13 @@ SLAN1_Mickiewicz(config-if)#
 %LINK-5-CHANGED: Interface Vlan1, changed state to up
 ```
 
+#### Brama domyślna
+Należy ustawić bramę domyślną na przekaźniku (adres bramy to adres routera w danej sieci):
+
+```
+SLAN1_Mickiewicz(config)#ip default-gateway 155.21.22.1
+```
+
 #### Zegar, data i wyszukiwanie DNS
 Zegar i datę ustawiamy dokładnie tak samo jak w routerze R1:
 
